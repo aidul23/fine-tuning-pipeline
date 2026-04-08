@@ -33,12 +33,12 @@ export default function RootLayout({
         <MobileNav />
         <div className="flex min-h-screen pt-14 lg:pt-0">
           <Sidebar />
-          <main className="flex min-h-screen flex-1 flex-col overflow-auto pl-0 lg:pl-64">
+          <main className="flex min-h-screen flex-1 flex-col overflow-auto pl-0 lg:pl-64 pb-14">
             <div className="mx-auto flex min-h-0 flex-1 flex-col max-w-7xl p-6 lg:p-8">
               {children}
-              <Footer />
             </div>
           </main>
+          <Footer />
         </div>
       </body>
     </html>

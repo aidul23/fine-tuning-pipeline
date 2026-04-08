@@ -3,7 +3,9 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { GlassCard } from "@/components/GlassCard";
+import { PageHeader } from "@/components/PageHeader";
 import { api, type Dataset } from "@/lib/api";
+import { getPageIcon } from "@/lib/nav";
 
 const BASE_MODELS = [
   "TinyLlama/TinyLlama-1.1B",
@@ -47,14 +49,11 @@ export default function FineTunePage() {
 
   return (
     <div className="animate-fade-in space-y-8">
-      <div>
-        <h1 className="text-3xl font-semibold tracking-tight text-white">
-          Fine-Tune
-        </h1>
-        <p className="mt-1 text-slate-400">
-          Start a LoRA fine-tuning job
-        </p>
-      </div>
+      <PageHeader
+        title="Fine-Tune"
+        description="Start a LoRA fine-tuning job"
+        icon={getPageIcon("/finetune")}
+      />
 
       <form onSubmit={onSubmit}>
         <GlassCard className="space-y-6">

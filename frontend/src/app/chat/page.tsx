@@ -3,7 +3,9 @@
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { GlassCard } from "@/components/GlassCard";
+import { PageHeader } from "@/components/PageHeader";
 import { api, type Model } from "@/lib/api";
+import { getPageIcon } from "@/lib/nav";
 
 function ChatContent() {
   const searchParams = useSearchParams();
@@ -45,14 +47,11 @@ function ChatContent() {
 
   return (
     <div className="animate-fade-in space-y-6">
-      <div>
-        <h1 className="text-3xl font-semibold tracking-tight text-white">
-          Chat
-        </h1>
-        <p className="mt-1 text-slate-400">
-          Talk to your fine-tuned model
-        </p>
-      </div>
+      <PageHeader
+        title="Chat"
+        description="Talk to your fine-tuned model"
+        icon={getPageIcon("/chat")}
+      />
 
       <GlassCard className="flex flex-col">
         <div className="flex flex-wrap items-center gap-4">

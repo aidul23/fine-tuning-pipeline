@@ -3,7 +3,9 @@
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { GlassCard } from "@/components/GlassCard";
+import { PageHeader } from "@/components/PageHeader";
 import { api, type Job } from "@/lib/api";
+import { getPageIcon } from "@/lib/nav";
 
 function JobsContent() {
   const searchParams = useSearchParams();
@@ -46,14 +48,11 @@ function JobsContent() {
 
   return (
     <div className="animate-fade-in space-y-8">
-      <div>
-        <h1 className="text-3xl font-semibold tracking-tight text-white">
-          Jobs
-        </h1>
-        <p className="mt-1 text-slate-400">
-          Training job status, logs, and metrics
-        </p>
-      </div>
+      <PageHeader
+        title="Jobs"
+        description="Training job status, logs, and metrics"
+        icon={getPageIcon("/jobs")}
+      />
 
       <div className="grid gap-6 lg:grid-cols-2">
         <GlassCard>

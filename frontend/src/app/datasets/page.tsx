@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { GlassCard } from "@/components/GlassCard";
+import { PageHeader } from "@/components/PageHeader";
 import { api, type Dataset } from "@/lib/api";
+import { getPageIcon } from "@/lib/nav";
 
 export default function DatasetsPage() {
   const [datasets, setDatasets] = useState<Dataset[]>([]);
@@ -51,14 +53,11 @@ export default function DatasetsPage() {
 
   return (
     <div className="animate-fade-in space-y-8">
-      <div>
-        <h1 className="text-3xl font-semibold tracking-tight text-white">
-          Datasets
-        </h1>
-        <p className="mt-1 text-slate-400">
-          Upload and manage JSONL instruction datasets
-        </p>
-      </div>
+      <PageHeader
+        title="Datasets"
+        description="Upload and manage JSONL instruction datasets"
+        icon={getPageIcon("/datasets")}
+      />
 
       <GlassCard>
         <h2 className="text-lg font-medium text-white">Upload dataset</h2>

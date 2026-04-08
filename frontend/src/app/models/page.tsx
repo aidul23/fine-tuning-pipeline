@@ -3,7 +3,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { GlassCard } from "@/components/GlassCard";
+import { PageHeader } from "@/components/PageHeader";
 import { api, type Model } from "@/lib/api";
+import { getPageIcon } from "@/lib/nav";
 
 export default function ModelsPage() {
   const [models, setModels] = useState<Model[]>([]);
@@ -15,14 +17,11 @@ export default function ModelsPage() {
 
   return (
     <div className="animate-fade-in space-y-8">
-      <div>
-        <h1 className="text-3xl font-semibold tracking-tight text-white">
-          Models
-        </h1>
-        <p className="mt-1 text-slate-400">
-          Fine-tuned models: chat or download
-        </p>
-      </div>
+      <PageHeader
+        title="Models"
+        description="Fine-tuned models: chat or download"
+        icon={getPageIcon("/models")}
+      />
 
       <GlassCard>
         <h2 className="text-lg font-medium text-white">Available models</h2>

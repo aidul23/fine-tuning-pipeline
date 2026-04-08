@@ -2,8 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Database, ListTodo, Boxes } from "lucide-react";
 import { GlassCard } from "@/components/GlassCard";
+import { PageHeader } from "@/components/PageHeader";
 import { api, type Dataset, type Job, type Model } from "@/lib/api";
+import { getPageIcon } from "@/lib/nav";
 
 export default function DashboardPage() {
   const [datasets, setDatasets] = useState<Dataset[]>([]);
@@ -27,19 +30,19 @@ export default function DashboardPage() {
       label: "Datasets",
       value: loading ? "—" : datasets.length,
       href: "/datasets",
-      icon: "◇",
+      Icon: Database,
     },
     {
       label: "Training jobs",
       value: loading ? "—" : jobs.length,
       href: "/jobs",
-      icon: "▣",
+      Icon: ListTodo,
     },
     {
       label: "Fine-tuned models",
       value: loading ? "—" : models.length,
       href: "/models",
-      icon: "⬡",
+      Icon: Boxes,
     },
   ];
 
@@ -47,31 +50,31 @@ export default function DashboardPage() {
 
   return (
     <div className="animate-fade-in space-y-8">
-      <div>
-        <h1 className="text-3xl font-semibold tracking-tight text-white">
-          Dashboard
-        </h1>
-        <p className="mt-1 text-slate-400">
-          Overview of your fine-tuning platform
-        </p>
-      </div>
+      <PageHeader
+        title="Dashboard"
+        description="Overview of your fine-tuning platform"
+        icon={getPageIcon("/")}
+      />
 
       <div className="grid gap-4 sm:grid-cols-3">
-        {stats.map((s) => (
-          <Link key={s.label} href={s.href}>
-            <GlassCard hover className="h-full">
-              <div className="flex items-start justify-between">
-                <div>
-                  <p className="text-sm font-medium text-slate-400">{s.label}</p>
-                  <p className="mt-1 text-2xl font-semibold text-white">
-                    {s.value}
-                  </p>
+        {stats.map((s) => {
+          const Icon = s.Icon;
+          return (
+            <Link key={s.label} href={s.href}>
+              <GlassCard hover className="h-full">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-slate-400">{s.label}</p>
+                    <p className="mt-1 text-2xl font-semibold text-white">
+                      {s.value}
+                    </p>
+                  </div>
+                  <Icon className="h-8 w-8 shrink-0 text-slate-600" strokeWidth={1.5} aria-hidden />
                 </div>
-                <span className="text-2xl text-slate-600">{s.icon}</span>
-              </div>
-            </GlassCard>
-          </Link>
-        ))}
+              </GlassCard>
+            </Link>
+          );
+        })}
       </div>
 
       <GlassCard>

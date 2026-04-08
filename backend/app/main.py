@@ -1,12 +1,35 @@
+from contextlib import asynccontextmanager
+from pathlib import Path
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import datasets, finetune, models, chat
+from app.config import settings
+from app.database import init_db
+from app.routers import chat, datasets, finetune, models
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    settings.storage_root.mkdir(parents=True, exist_ok=True)
+    settings.datasets_dir().mkdir(parents=True, exist_ok=True)
+    settings.models_dir().mkdir(parents=True, exist_ok=True)
+    if settings.database_url.startswith("sqlite"):
+        raw = settings.database_url.replace("sqlite:///", "", 1)
+        if raw and not raw.startswith(":memory:"):
+            db_file = Path(raw)
+            if not db_file.is_absolute():
+                db_file = Path.cwd() / db_file
+            db_file.parent.mkdir(parents=True, exist_ok=True)
+    init_db()
+    yield
+
 
 app = FastAPI(
     title="Fine-Tuning Platform API",
     description="API for the Fine-Tuning Platform (v1 MVP)",
     version="1.0.0",
+    lifespan=lifespan,
 )
 
 app.add_middleware(

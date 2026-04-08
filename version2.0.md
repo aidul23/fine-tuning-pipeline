@@ -16,28 +16,27 @@
   - Jobs: `POST /finetune/jobs`, `GET /finetune/jobs`, `GET /finetune/jobs/{id}`.
   - Models: `GET /models`, `GET /models/{id}/download` (placeholder).
   - Chat: `POST /chat/{model_id}` (placeholder).
-- **Storage:** In-memory only (no database, no persistent file storage).
+- **Persistence (done):** SQLAlchemy + SQLite by default; `DATABASE_URL` for PostgreSQL. Dataset files stored under `storage/datasets/`. Metadata in DB survives restarts.
 - **Validation:** Base model allowlist (TinyLlama, Qwen-0.5B, SmolLM-1B), dataset file type/size checks.
 
 ### Not Done (By Design in v1)
 - No GPU training worker: jobs are created but never run; status stays "Queued".
 - No real inference: chat returns a placeholder.
-- No real artifacts: download returns JSON placeholder; no adapter/merged model files.
-- No persistence: all data is lost on backend restart.
+- No real artifacts: download returns JSON placeholder; no adapter/merged model files on disk yet.
 
 ---
 
 ## Where We Are
 
-Version 1 delivers the **full user-facing product**: all screens and API contracts for the fine-tuning workflow. The **execution pipeline is not implemented**: no real training, no real inference, no persistent storage. The codebase is ready to plug in PostgreSQL, a job queue, a GPU worker, and an inference service.
+Version 1 delivers the **full user-facing product** with **persistent datasets and job/model metadata**. The **execution pipeline is not implemented**: no real training, no real inference. Next: job queue + GPU worker, then inference and real downloads. Optional: S3/MinIO instead of local `storage/`.
 
 ---
 
 ## Next Plan (v2.0)
 
-1. **Persistence**
-   - Add **PostgreSQL** for datasets, jobs, and models metadata.
-   - Add **object storage** (S3 / MinIO or local path) for dataset files and model artifacts (adapter, merged, tokenizer).
+1. **Persistence** *(partially done — DB + local files; optional S3/MinIO next)*
+   - ~~Add **PostgreSQL** for datasets, jobs, and models metadata.~~ Use `DATABASE_URL` (SQLite default, Postgres supported).
+   - ~~Add **object storage** (S3 / MinIO or local path) for dataset files~~ — local path done; S3/MinIO for production scaling.
 
 2. **Training pipeline**
    - Introduce **Redis** and **Celery** (or similar) for job queue.
